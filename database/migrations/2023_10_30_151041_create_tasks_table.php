@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('deadline')->nullable();
             $table->boolean('is_finished')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

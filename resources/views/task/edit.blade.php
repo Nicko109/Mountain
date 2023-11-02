@@ -43,6 +43,17 @@
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="mt-2">
+                    <input id="isFinished" type="checkbox" name="is_finished"
+                        {{ $task->is_finished ? ' checked' : ''}}
+                    >
+                    <label for="isFinished">Выполнена</label>
+                    @error('is_finished')
+                    <div>
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
                 <input type="submit" class="btn btn-success mt-3" value="Изменить">
                 <div class="col-2 mt-3">
                     <a href="{{ route('tasks.index') }}" class="btn btn-block btn-primary">Назад</a>

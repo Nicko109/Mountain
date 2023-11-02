@@ -22,6 +22,8 @@
                                 <th>Наименование</th>
                                 <th>Описание</th>
                                 <th>Дата выполнения</th>
+                                <th>Статус задачи</th>
+                                <th colspan="4" class="text-center">Действие</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -29,7 +31,18 @@
                                     <td>{{ $task->id }}</td>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->description }}</td>
-                                    <td>{{ $task->deadline }}</td>
+                                    <td>{{ $task->formatted_deadline }}</td>
+                                    <td>{{ $task->formatted_is_finished }}</td>
+                                    <td class="text-center"> <a href="{{route('tasks.edit', $task->id)}}" class="text-success">Изменить</a></td>
+                                    <td class="text-center">
+                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="border-0 bg-transparent text-danger">
+                                                Удалить
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -38,11 +51,6 @@
                                 <a href="{{ route('tasks.index') }}" class="btn btn-block btn-primary">Назад</a>
                             </div>
                         </div>
-                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" class="btn btn-danger" value="Удалить">
-                        </form>
                     </div>
                 </div>
             </div>

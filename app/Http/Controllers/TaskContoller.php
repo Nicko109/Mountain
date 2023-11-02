@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Task\TaskResource;
+use App\Mapper\TaskMapper;
 use App\Models\Task;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
@@ -16,12 +17,32 @@ class TaskContoller extends Controller
     public function index()
     {
         $tasks = TaskService::index();
-        return view('task.index', compact('tasks'));
+        $formattedTasks = TaskMapper::indexTasks($tasks);
+
+        return view('task.index', compact('formattedTasks'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
+    /**
+     * Display the specified resource.
+     */
+    public function show(Task $task)
+    {
+        $task = TaskMapper::showTask($task);
+
+        return view('task.show', compact('task'));
+    }
+
+
+
+
+
+
+
+
+
     public function create()
     {
         return view('task.create');
@@ -32,23 +53,20 @@ class TaskContoller extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $date = $request->validated();
+        $data = $request->validated();
 
-        $task = TaskService::store($date);
+        $task = TaskService::store($data);
+
+        $task = TaskMapper::storeTask($task);
 
         $task = TaskResource::make($task)->resolve();
+
 
         return redirect()->route('tasks.index');
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        return view('task.show', compact('task'));
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -63,8 +81,8 @@ class TaskContoller extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        $date = $request->validated();
-        $task->update($date);
+        $data = $request->validated();
+        TaskService::update($task, $data);
         return redirect()->route('tasks.show', compact('task'));
     }
 
@@ -73,7 +91,7 @@ class TaskContoller extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->delete();
+      TaskService::destroy($task);
 
         return redirect()->route('tasks.index');
     }
