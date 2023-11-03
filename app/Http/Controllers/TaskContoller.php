@@ -22,26 +22,6 @@ class TaskContoller extends Controller
         return view('task.index', compact('formattedTasks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        $task = TaskMapper::showTask($task);
-
-        return view('task.show', compact('task'));
-    }
-
-
-
-
-
-
-
-
 
     public function create()
     {
@@ -65,8 +45,18 @@ class TaskContoller extends Controller
         return redirect()->route('tasks.index');
 
     }
+    /**
+     * Show the form for creating a new resource.
+     */
+    /**
+     * Display the specified resource.
+     */
+    public function show(Task $task)
+    {
+        $task = TaskMapper::showTask($task);
 
-
+        return view('task.show', compact('task'));
+    }
 
     /**
      * Show the form for editing the specified resource.
