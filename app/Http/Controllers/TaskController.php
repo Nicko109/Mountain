@@ -11,7 +11,7 @@ use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Services\TaskService;
 
-class TaskContoller extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.

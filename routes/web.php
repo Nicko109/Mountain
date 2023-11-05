@@ -17,5 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 //
-Route::resource('tasks',\App\Http\Controllers\TaskContoller::class);
+Route::resource('tasks',\App\Http\Controllers\TaskController::class);
+Route::resource('categories',\App\Http\Controllers\CategoryController::class);
 
