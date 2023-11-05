@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('deadline')->nullable();
             $table->boolean('is_finished')->default(false);
+            $table->foreignId('category_id')->nullable()->index()->constrained('categories');
             $table->softDeletes();
             $table->timestamps();
         });

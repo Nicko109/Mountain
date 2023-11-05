@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Task\TaskResource;
 use App\Mapper\TaskMapper;
+use App\Models\Category;
+use App\Models\Performer;
 use App\Models\Task;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
@@ -16,6 +18,7 @@ class TaskContoller extends Controller
      */
     public function index()
     {
+
         $tasks = TaskService::index();
         $formattedTasks = TaskMapper::indexTasks($tasks);
 
@@ -53,6 +56,8 @@ class TaskContoller extends Controller
      */
     public function show(Task $task)
     {
+
+
         $task = TaskMapper::showTask($task);
 
         return view('task.show', compact('task'));
