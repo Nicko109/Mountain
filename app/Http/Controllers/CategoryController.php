@@ -5,15 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Task\TaskResource;
-use App\Mapper\TaskMapper;
 use App\Models\Category;
-use App\Models\Performer;
-use App\Models\Task;
-use App\Http\Requests\Task\StoreTaskRequest;
-use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Services\CategoryService;
-use App\Services\TaskService;
 
 class CategoryController extends Controller
 {

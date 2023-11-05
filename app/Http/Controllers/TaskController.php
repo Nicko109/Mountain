@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Task\TaskResource;
-use App\Mapper\TaskMapper;
-use App\Models\Category;
-use App\Models\Performer;
-use App\Models\Task;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Http\Resources\Task\TaskResource;
+use App\Mapper\TaskMapper;
+use App\Models\Task;
 use App\Services\TaskService;
 
 class TaskController extends Controller
