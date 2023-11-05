@@ -12,7 +12,7 @@
 <div>
     <section class="content">
         <div class="row">
-            <div class="col-10">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body p-0">
                         <table class="table table-hover text-nowrap">
@@ -21,8 +21,10 @@
                                 <th>ID</th>
                                 <th>Наименование</th>
                                 <th>Описание</th>
+                                <th>Категория</th>
                                 <th>Дата выполнения</th>
                                 <th>Статус задачи</th>
+                                <th>Номер гарантийного талона</th>
                                 <th colspan="4" class="text-center">Действие</th>
                             </tr>
                             </thead>
@@ -31,8 +33,10 @@
                                     <td>{{ $task->id }}</td>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->description }}</td>
+                                    <td>{{ $task->category->title }}</td>
                                     <td>{{ $task->formatted_deadline }}</td>
                                     <td>{{ $task->formatted_is_finished }}</td>
+                                    <td>{{ $task->guarantee->number }}</td>
                                     <td class="text-center"> <a href="{{route('tasks.edit', $task->id)}}" class="text-success">Изменить</a></td>
                                     <td class="text-center">
                                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">

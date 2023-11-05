@@ -20,6 +20,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Номер</th>
+                                <th>Задача</th>
+                                <th>Категория</th>
                                 <th colspan="4" class="text-center">Действие</th>
                             </tr>
                             </thead>
@@ -27,6 +29,8 @@
                                 <tr>
                                     <td>{{ $guarantee->id }}</td>
                                     <td>{{ $guarantee->number }}</td>
+                                    <td>{{ $guarantee->task->title }}</td>
+                                    <td>{{ $guarantee->task->category->title }}</td>
                                     <td class="text-center"> <a href="{{route('guarantees.edit', $guarantee->id)}}" class="text-success">Изменить</a></td>
                                     <td class="text-center">
                                         <form action="{{ route('guarantees.destroy', $guarantee->id) }}" method="POST">

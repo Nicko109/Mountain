@@ -7,6 +7,7 @@ use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
 use App\Models\Category;
 use App\Services\CategoryService;
+use App\Services\TaskService;
 
 class CategoryController extends Controller
 {
@@ -51,9 +52,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $tasks = TaskService::index()->where('category_id', $category->id);
 
-
-        return view('category.show', compact('category'));
+        return view('category.show', compact('category', 'tasks'));
     }
 
     /**

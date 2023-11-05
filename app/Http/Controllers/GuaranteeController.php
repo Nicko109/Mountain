@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Guarantee\StoreGuaranteeRequest;
 use App\Http\Requests\Guarantee\UpdateGuaranteeRequest;
 use App\Http\Resources\Guarantee\GuaranteeResource;
+use App\Mapper\TaskMapper;
 use App\Models\Guarantee;
+use App\Models\Task;
 use App\Services\GuaranteeService;
+use App\Services\TaskService;
 
 class GuaranteeController extends Controller
 {
@@ -51,7 +54,6 @@ class GuaranteeController extends Controller
      */
     public function show(Guarantee $guarantee)
     {
-
 
         return view('guarantee.show', compact('guarantee'));
     }

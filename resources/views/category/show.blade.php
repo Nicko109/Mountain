@@ -40,6 +40,22 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <table class="table table-hover text-nowrap">
+                            <tbody>
+                            <thead>
+                            <tr>
+                                <th>Задачи</th>
+                                <th>Номер гарантийного талона</th>
+                            </tr>
+                            </thead>
+                            @foreach($tasks as $task)
+                                <tr>
+                                    <td>{{ $task->title }}</td>
+                                    <td>{{ $task->guarantee->number }}</td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                        </table>
                         <div class="row">
                             <div class="col-2 mb-3">
                                 <a href="{{ route('categories.index') }}" class="btn btn-block btn-primary">Назад</a>
