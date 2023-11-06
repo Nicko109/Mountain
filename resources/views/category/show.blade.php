@@ -48,7 +48,7 @@
                                 <th>Номер гарантийного талона</th>
                             </tr>
                             </thead>
-                            @foreach($tasks as $task)
+                            @foreach($category->tasks as $task)
                                 <tr>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->guarantee->number }}</td>

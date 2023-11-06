@@ -52,7 +52,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $tasks = TaskService::index()->where('category_id', $category->id);
+        $tasks = TaskService::index();
 
         return view('category.show', compact('category', 'tasks'));
     }
