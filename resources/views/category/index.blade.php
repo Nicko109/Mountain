@@ -48,6 +48,11 @@
                                     <a href="{{ route('categories.create') }}" class="btn btn-block btn-success">Добавить</a>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-2 mb-3">
+                                    <a href="{{ url('/') }}" class="btn btn-block btn-primary">Назад</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -22,3 +22,7 @@ Route::resource('categories',\App\Http\Controllers\CategoryController::class);
 Route::resource('guarantees',\App\Http\Controllers\GuaranteeController::class);
 Route::resource('performers',\App\Http\Controllers\PerformerController::class);
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

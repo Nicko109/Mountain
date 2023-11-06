@@ -50,6 +50,20 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <table class="table table-hover text-nowrap">
+                            <tbody>
+                            <thead>
+                            <tr>
+                                <th>Исполнители</th>
+                            </tr>
+                            </thead>
+                            @foreach($task->performers as $performer)
+                                <tr>
+                                    <td>{{ $performer->name }}</td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                        </table>
                         <div class="row">
                             <div class="col-2 mb-3">
                                 <a href="{{ route('tasks.index') }}" class="btn btn-block btn-primary">Назад</a>

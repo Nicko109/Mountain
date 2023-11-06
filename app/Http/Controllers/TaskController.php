@@ -7,6 +7,7 @@ use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Mapper\TaskMapper;
 use App\Models\Task;
+use App\Services\PerformerService;
 use App\Services\TaskService;
 
 class TaskController extends Controller
@@ -55,10 +56,10 @@ class TaskController extends Controller
     public function show(Task $task)
     {
 
-
+        $performers = PerformerService::index();
         $task = TaskMapper::showTask($task);
 
-        return view('task.show', compact('task'));
+        return view('task.show', compact('task', 'performers'));
     }
 
     /**
