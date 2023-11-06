@@ -15,6 +15,6 @@ class Performer extends Model
 
     public function tasks()
     {
-        return $this->belongsToMany(Performer::class);
+        return $this->belongsToMany(Task::class);
     }
 }

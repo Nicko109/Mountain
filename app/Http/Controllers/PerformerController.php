@@ -8,6 +8,7 @@ use App\Http\Requests\Performer\UpdatePerformerRequest;
 use App\Http\Resources\Performer\PerformerResource;
 use App\Models\Performer;
 use App\Services\PerformerService;
+use App\Services\TaskService;
 
 class PerformerController extends Controller
 {
@@ -53,8 +54,8 @@ class PerformerController extends Controller
     public function show(Performer $performer)
     {
 
-
-        return view('performer.show', compact('performer'));
+        $tasks = TaskService::index();
+        return view('performer.show', compact('performer', 'tasks'));
     }
 
     /**
