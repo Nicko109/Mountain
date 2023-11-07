@@ -46,12 +46,63 @@
                             <tr>
                                 <th>Задачи</th>
                                 <th>Номер гарантийного талона</th>
+                                <th>Дата выполнения</th>
                             </tr>
                             </thead>
                             @foreach($category->tasks as $task)
                                 <tr>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->guarantee->number }}</td>
+                                    <td>{{ $task->deadline }}</td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                        </table>
+                        <table class="table table-hover text-nowrap">
+                            <tbody>
+                            <thead>
+                            <tr>
+                                <th>Выполненные задачи</th>
+                                <th>Номер гарантийного талона</th>
+                                <th>Дата выполнения</th>
+                            </tr>
+                            </thead>
+                            @foreach($category->tasksFinished as $task)
+                                <tr>
+                                    <td>{{ $task->title }}</td>
+                                    <td>{{ $task->guarantee->number }}</td>
+                                    <td>{{ $task->deadline }}</td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                        </table>
+                        </table>
+                        <table class="table table-hover text-nowrap">
+                            <tbody>
+                            <thead>
+                            <tr>
+                                <th>Самая срочная задача</th>
+                                <th>Номер гарантийного талона</th>
+                                <th>Дата выполнения</th>
+                            </tr>
+                            </thead>
+                                <tr>
+                                    <td>{{ $category->taskOneOfHottest->title }}</td>
+                                    <td>{{ $category->taskOneOfHottest->guarantee->number }}</td>
+                                    <td>{{ $category->taskOneOfHottest->deadline }}</td>
+                                </tr>
+                                </tbody>
+                        </table>
+                        <table class="table table-hover text-nowrap">
+                            <tbody>
+                            <thead>
+                            <tr>
+                                <th>Номер заказа по категории</th>
+                            </tr>
+                            </thead>
+                            @foreach($category->orders as $order)
+                                <tr>
+                                    <td>{{ $order->number }}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>

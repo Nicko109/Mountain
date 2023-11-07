@@ -7,6 +7,7 @@ use App\Http\Requests\Performer\StorePerformerRequest;
 use App\Http\Requests\Performer\UpdatePerformerRequest;
 use App\Http\Resources\Performer\PerformerResource;
 use App\Models\Performer;
+use App\Models\Task;
 use App\Services\PerformerService;
 use App\Services\TaskService;
 
@@ -37,7 +38,6 @@ class PerformerController extends Controller
         $data = $request->validated();
 
         $performer = PerformerService::store($data);
-
 
         $performer = PerformerResource::make($performer)->resolve();
 

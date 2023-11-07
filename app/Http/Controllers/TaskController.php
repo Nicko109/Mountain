@@ -21,6 +21,7 @@ class TaskController extends Controller
         $tasks = TaskService::index();
         $formattedTasks = TaskMapper::indexTasks($tasks);
 
+
         return view('task.index', compact('formattedTasks'));
     }
 
