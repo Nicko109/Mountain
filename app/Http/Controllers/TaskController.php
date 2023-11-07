@@ -6,6 +6,7 @@ use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Mapper\TaskMapper;
+use App\Models\Guarantee;
 use App\Models\Task;
 use App\Services\PerformerService;
 use App\Services\TaskService;
@@ -39,6 +40,15 @@ class TaskController extends Controller
         $data = $request->validated();
 
         $task = TaskService::store($data);
+
+        $guarantee = new Guarantee([
+            'number' => random_int(100000, 999999)
+        ]);
+
+        $guarantee->task_id = $task->id;
+
+        // Сохраняем гарантию в базе данных
+        $guarantee->save();
 
         $task = TaskMapper::storeTask($task);
 

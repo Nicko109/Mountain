@@ -19,25 +19,45 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //Задание 1
-//  $category = Category::find(1);
-
+        //Задание 1 показываем фильтрацию через метод в Модели
+//        $category = Category::find(5);
+//        $task = Task::find(11);
 
 //  dd($category->tasksFinished);
 //  dd($category->taskOneOfHottest);
 //  dd($category->orders);
 
 
+
+        //Создаём задачу сразу с id
+//        $category = Category::find(5);
+//        $task = Task::find(11);
 //        $category->tasks()->create([
 //            'title' => 'Собрать урожай',
 //            'description' => 'Собрать урожай в селе',
 //        ]);
 
 
-        //Задание 2
-//        $performer = Performer::first();
+
+
+
+
+
+
+        //Создаём отдельно id для задачи
+//        $category = Category::find(5);
+//        $task = Task::find(13);
+//        $task->category_id = $category->id; // Устанавливаем category_id
 //
-//        $task = Task::find(1);
+//        $task->save(); // Сохраняем изменения в базе данных
+//
+//
+
+
+//        Задание 2 Создаём сразу 2 id performer_id & task_id
+//        $performer = Performer::find(2);
+
+//        $task = Task::find(13);
 //        $performer->tasks()->syncWithoutDetaching($task->id);
 //        $performer->tasks()->toggle($task->id);
 //        $performer->tasks()->attach($task->id);
