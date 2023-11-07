@@ -19,6 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        //Задание 1
 //  $category = Category::find(1);
 
 
@@ -33,11 +34,10 @@ class CategoryController extends Controller
 //        ]);
 
 
-
-
-        $performer = Performer::first();
-
-        $task = Task::find(1);
+        //Задание 2
+//        $performer = Performer::first();
+//
+//        $task = Task::find(1);
 //        $performer->tasks()->syncWithoutDetaching($task->id);
 //        $performer->tasks()->toggle($task->id);
 //        $performer->tasks()->attach($task->id);
@@ -50,19 +50,25 @@ class CategoryController extends Controller
 //        $task->performers()->syncWithoutDetaching($task->id);
 //        dd($task->performers);
 
-        $performer = Performer::find(2);
 
-        $task = Task::find(2);
+
+
+        //Задание 2
+//        $performer = Performer::find(2);
+//
+//        $task = Task::find(2);
 
 //        $performer->tasks()->attach($performer->id);
 //        $performer->tasks()->detach($performer->id);
 //        $performer->tasks()->syncWithoutDetaching($performer->id);
-        $performer->tasks()->toggle($performer->id);
-        dd($performer->tasks);
+//        $performer->tasks()->toggle($performer->id);
+//        dd($performer->tasks);
 
-
-
-
+//        $task->performers()->detach($task->id);
+//        $task->performers()->attach($task->id);
+//        $task->performers()->toggle($task->id);
+//        $task->performers()->syncWithoutDetaching($task->id);
+//        dd($task->performers);
 
 
         $categories = CategoryService::index();
