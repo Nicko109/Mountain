@@ -97,11 +97,17 @@
                             <tbody>
                             <thead>
                             <tr>
-                                <th>Номер заказа по категории</th>
+                                <th>Задачи</th>
+                                <th>Номер гарантийного талона</th>
+                                <th>Дата выполнения</th>
+                                <th>Номер заказа</th>
                             </tr>
                             </thead>
                             @foreach($category->orders as $order)
                                 <tr>
+                                    <td>{{ $order->task->title }}</td>
+                                    <td>{{ $order->task->guarantee->number }}</td>
+                                    <td>{{ $order->task->deadline }}</td>
                                     <td>{{ $order->number }}</td>
                                 </tr>
                                 @endforeach

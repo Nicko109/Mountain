@@ -18,15 +18,25 @@ class Category extends Model
         return $this->hasMany(Task::class);
     }
 
+
+
+
     public function tasksFinished()
     {
         return $this->tasks()->where('is_finished', '=', '1');
     }
 
+
+
+
     public function taskOneOfHottest()
     {
         return $this->hasOne(Task::class)->ofMany('deadline', 'min');
     }
+
+
+
+
 
     public function orders()
     {

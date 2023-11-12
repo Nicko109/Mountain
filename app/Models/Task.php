@@ -27,4 +27,10 @@ class Task extends Model
     {
         return $this->belongsToMany(Performer::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }

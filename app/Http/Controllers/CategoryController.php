@@ -19,15 +19,21 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //Задание 1 показываем фильтрацию через метод в Модели
-//        $category = Category::find(5);
-//        $task = Task::find(11);
 
+        $categories = CategoryService::index();
+
+        $categories = CategoryResource::collection($categories)->resolve();
+        return $categories;
+//        return CategoryResource::collection($categories)->resolve();
+        //        return view('category.index', compact('categories'));
+
+        //        Задание 1 показываем фильтрацию через метод в Модели
+//        $category = Category::find(1);
+//
+//
 //  dd($category->tasksFinished);
 //  dd($category->taskOneOfHottest);
 //  dd($category->orders);
-
-
 
         //Создаём задачу сразу с id
 //        $category = Category::find(5);
@@ -38,26 +44,18 @@ class CategoryController extends Controller
 //        ]);
 
 
-
-
-
-
-
-
-        //Создаём отдельно id для задачи
-//        $category = Category::find(5);
-//        $task = Task::find(13);
+//        Создаём отдельно id для задачи
+//        $category = Category::find(1);
+//        $task = Task::find(7);
 //        $task->category_id = $category->id; // Устанавливаем category_id
 //
 //        $task->save(); // Сохраняем изменения в базе данных
-//
-//
 
 
 //        Задание 2 Создаём сразу 2 id performer_id & task_id
-//        $performer = Performer::find(2);
-
-//        $task = Task::find(13);
+//        $performer = Performer::find(1);
+//
+//        $task = Task::find(1);
 //        $performer->tasks()->syncWithoutDetaching($task->id);
 //        $performer->tasks()->toggle($task->id);
 //        $performer->tasks()->attach($task->id);
@@ -71,31 +69,23 @@ class CategoryController extends Controller
 //        dd($task->performers);
 
 
-
-
-        //Задание 2
-//        $performer = Performer::find(2);
-//
-//        $task = Task::find(2);
+//        Задание 2.1 Создаём сразу 2-х исполнителей к задаче id performer_id & task_id
+//        $performer = Performer::find(1);
+//        $performer2 = Performer::find(2);
+////
+//        $task = Task::find(7);
 
 //        $performer->tasks()->attach($performer->id);
 //        $performer->tasks()->detach($performer->id);
 //        $performer->tasks()->syncWithoutDetaching($performer->id);
-//        $performer->tasks()->toggle($performer->id);
+//        $performer->tasks()->toggle($task->id);
 //        dd($performer->tasks);
 
-//        $task->performers()->detach($task->id);
-//        $task->performers()->attach($task->id);
-//        $task->performers()->toggle($task->id);
-//        $task->performers()->syncWithoutDetaching($task->id);
+//        $task->performers()->detach([$performer->id, $performer2->id]);
+//        $task->performers()->attach([$performer->id, $performer2->id]);
+//        $task->performers()->toggle([$performer->id, $performer2->id]);
+//        $task->performers()->syncWithoutDetaching([$performer->id, $performer2->id]);
 //        dd($task->performers);
-
-
-        $categories = CategoryService::index();
-
-
-
-        return view('category.index', compact('categories'));
     }
 
 

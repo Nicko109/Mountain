@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('performer_task', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('performer_id')->index()->constrained('performers');
             $table->foreignId('task_id')->index()->constrained('tasks');
+            $table->foreignId('performer_id')->index()->constrained('performers');
             $table->softDeletes();
             $table->timestamps();
         });
