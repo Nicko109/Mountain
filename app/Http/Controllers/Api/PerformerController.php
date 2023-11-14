@@ -81,7 +81,11 @@ class PerformerController extends Controller
     {
         $data = $request->validated();
 
-        $performer->tasks()->syncWithoutDetaching($data);
+        foreach ($data['task_ids'] as $task_id) {
+
+        $performer->tasks()->syncWithoutDetaching($task_id);
+        }
+
         return $performer;
     }
 }

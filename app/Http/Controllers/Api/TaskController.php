@@ -99,9 +99,9 @@ class TaskController extends Controller
 
         $data = $request->validated();
 
-//        $performer = Performer::find(1);
-//        $performer2 = Performer::find(2);
-        $task->performers()->syncWithoutDetaching($data);
+        foreach ($data['performer_ids'] as $performerId) {
+            $task->performers()->syncWithoutDetaching($performerId);
+        }
         return $task;
     }
 

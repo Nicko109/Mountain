@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Requests\StoreCategoryTaskRequest;
 use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Category;
@@ -67,16 +68,14 @@ class CategoryController extends Controller
         return redirect()->route('api.categories.index');
     }
 
-    public function storeCategoryTask()
+    public function storeCategoryTask(StoreCategoryTaskRequest $request, Category $category)
     {
-        $category = Category::find(4);
-        $task = Task::find(23);
-        $task->category_id = $category->id; // Устанавливаем category_id
 
-        $task->save(); // Сохраняем изменения в базе данных
-
-
-
+        $data = $request->validated();
+        foreach ($data['task_ids'] as $taskId) {
+            $task = Task::findOrFail($taskId);
+            $task->update(['category_id' => $category->id]);
+        }
         return $task;
     }
 }

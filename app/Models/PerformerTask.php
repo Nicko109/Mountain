@@ -10,4 +10,15 @@ class PerformerTask extends Model
     use HasFactory;
     protected $guarded = false;
     protected $table = 'performer_task';
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
+    public function performers()
+    {
+        return $this->belongsToMany(Performer::class);
+    }
+
 }
