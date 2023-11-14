@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTaskPerformerRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\Task\TaskResource;
@@ -93,15 +94,14 @@ class TaskController extends Controller
         return redirect()->route('api.tasks.index');
     }
 
-    public function storeTaskPerformer()
+    public function storeTaskPerformer(StoreTaskPerformerRequest $request, Task $task)
     {
-        $task = Task::find(1);
-        $performer = Performer::find(4);
-        $performer2 = Performer::find(5);
 
+        $data = $request->validated();
 
-        $task->performers()->toggle([$performer->id, $performer2->id]);
-
+//        $performer = Performer::find(1);
+//        $performer2 = Performer::find(2);
+        $task->performers()->syncWithoutDetaching($data);
         return $task;
     }
 

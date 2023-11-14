@@ -36,3 +36,4 @@ Route::apiResource('performers', \App\Http\Controllers\Api\PerformerController::
 
 Route::post('/categories/{category}/tasks', [\App\Http\Controllers\Api\CategoryController::class, 'storeCategoryTask']);
 Route::post('/tasks/{task}/performers', [\App\Http\Controllers\Api\TaskController::class, 'storeTaskPerformer']);
+Route::post('/performers/{performer}/tasks', [\App\Http\Controllers\Api\PerformerController::class, 'storePerformerTask']);

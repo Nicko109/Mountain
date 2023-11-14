@@ -6,9 +6,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Performer\StorePerformerRequest;
 use App\Http\Requests\Performer\UpdatePerformerRequest;
+use App\Http\Requests\StorePerformerTaskRequest;
 use App\Http\Resources\Performer\PerformerResource;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Performer;
+use App\Models\Task;
 use App\Services\PerformerService;
 
 class PerformerController extends Controller
@@ -73,5 +75,13 @@ class PerformerController extends Controller
         PerformerService::destroy($performer);
 
         return redirect()->route('api.performers.index');
+    }
+
+    public function storePerformerTask(StorePerformerTaskRequest $request, Performer $performer)
+    {
+        $data = $request->validated();
+
+        $performer->tasks()->syncWithoutDetaching($data);
+        return $performer;
     }
 }

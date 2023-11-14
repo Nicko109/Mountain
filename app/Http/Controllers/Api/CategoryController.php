@@ -69,8 +69,8 @@ class CategoryController extends Controller
 
     public function storeCategoryTask()
     {
-        $category = Category::find(1);
-        $task = Task::find(12);
+        $category = Category::find(4);
+        $task = Task::find(23);
         $task->category_id = $category->id; // Устанавливаем category_id
 
         $task->save(); // Сохраняем изменения в базе данных
