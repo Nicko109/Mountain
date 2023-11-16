@@ -18,9 +18,11 @@ class GuaranteeFactory extends Factory
      */
     public function definition(): array
     {
+        $taskId = Task::inRandomOrder()->first()->id;
+
         return [
             'number' => fake()->numberBetween(100000, 999999),
-            'task_id' => Task::inRandomOrder()->first()->id,
+            'task_id' => $taskId,
 
         ];
     }

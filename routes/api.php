@@ -34,6 +34,17 @@ Route::apiResource('guarantees', \App\Http\Controllers\Api\GuaranteeController::
 Route::apiResource('performers', \App\Http\Controllers\Api\PerformerController::class);
 });
 
+
+
+Route::group(['middleware' => 'secure', 'prefix' => 'mount'], function () {
+    Route::apiResource('tasks', \App\Http\Controllers\ApiMount\TaskController::class)->names('mount.tasks');
+    Route::apiResource('categories', \App\Http\Controllers\ApiMount\CategoryController::class)->names('mount.categories');
+    Route::apiResource('guarantees', \App\Http\Controllers\ApiMount\GuaranteeController::class)->names('mount.guarantees');
+    Route::apiResource('performers', \App\Http\Controllers\ApiMount\PerformerController::class)->names('mount.performers');
+});
+
+
+
 Route::post('/categories/{category}/tasks', [\App\Http\Controllers\Api\CategoryController::class, 'storeCategoryTask']);
 Route::post('/tasks/{task}/performers', [\App\Http\Controllers\Api\TaskController::class, 'storeTaskPerformer']);
 Route::post('/performers/{performer}/tasks', [\App\Http\Controllers\Api\PerformerController::class, 'storePerformerTask']);

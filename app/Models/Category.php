@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasFilter;
 
     protected $guarded = false;
     protected $table = 'categories';
@@ -23,7 +24,7 @@ class Category extends Model
 
     public function tasksFinished()
     {
-        return $this->tasks()->where('is_finished', '=', '1');
+        return $this->tasks()->where('is_finished',  true);
     }
 
 
@@ -34,14 +35,6 @@ class Category extends Model
         return $this->hasOne(Task::class)->ofMany('deadline', 'min');
     }
 
-
-
-
-
-    public function orders()
-    {
-        return $this->hasManyThrough(Order::class, Task::class);
-    }
 
 
 }

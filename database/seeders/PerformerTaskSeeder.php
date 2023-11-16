@@ -14,6 +14,6 @@ class PerformerTaskSeeder extends Seeder
      */
     public function run(): void
     {
-        PerformerTask::factory(20)->create();
+        PerformerTask::factory(50)->create();
     }
 }

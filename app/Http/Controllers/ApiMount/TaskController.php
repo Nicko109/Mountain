@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\ApiMount;
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\TaskFilter;
-use App\Http\Requests\Api\Task\IndexRequest;
 use App\Http\Requests\StoreTaskPerformerRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
@@ -20,21 +18,12 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(IndexRequest $request)
+    public function index()
     {
-        $data = $request->validated();
-        $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 25;
-
-
-        $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
-
-        $tasks = Task::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-        $formattedTasks = TaskMapper::indexTasks($tasks);
-
-        $tasks = TaskResource::collection($tasks);
-        return $tasks;
-
+            $tasks = TaskService::index();
+            $formattedTasks = TaskMapper::indexTasks($tasks);
+            $tasks = TaskResource::collection($tasks)->resolve();
+            return $tasks;
 
     }
 
@@ -102,7 +91,7 @@ class TaskController extends Controller
     {
         TaskService::destroy($task);
 
-        return redirect()->route('api.tasks.index');
+        return redirect()->route('api.mount.tasks.index');
     }
 
     public function storeTaskPerformer(StoreTaskPerformerRequest $request, Task $task)

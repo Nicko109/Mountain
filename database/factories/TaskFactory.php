@@ -18,12 +18,15 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
+        $categoryId = Category::inRandomOrder()->first()->id;
+
         return [
             'title' => fake()->jobTitle,
             'description' => fake()->text,
             'deadline' => fake()->date,
             'is_finished' => fake()->boolean,
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'price' => fake()->numberBetween(1000,55000),
+            'category_id' => $categoryId
 
         ];
     }

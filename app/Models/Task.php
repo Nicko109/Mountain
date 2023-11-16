@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasFilter;
 
     protected $guarded = false;
     protected $table = 'tasks';
@@ -28,9 +29,9 @@ class Task extends Model
         return $this->belongsToMany(Performer::class);
     }
 
-    public function orders()
+    public function complaints()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Complaint::class);
     }
 
 }

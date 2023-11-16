@@ -76,9 +76,7 @@
                                 @endforeach
                                 </tbody>
                         </table>
-                        </table>
                         <table class="table table-hover text-nowrap">
-                            <tbody>
                             <thead>
                             <tr>
                                 <th>Самая срочная задача</th>
@@ -86,32 +84,13 @@
                                 <th>Дата выполнения</th>
                             </tr>
                             </thead>
+                            @foreach($category->orders as $order)
                                 <tr>
                                     <td>{{ $category->taskOneOfHottest->title }}</td>
                                     <td>{{ $category->taskOneOfHottest->guarantee->number }}</td>
                                     <td>{{ $category->taskOneOfHottest->deadline }}</td>
                                 </tr>
-                                </tbody>
-                        </table>
-                        <table class="table table-hover text-nowrap">
-                            <tbody>
-                            <thead>
-                            <tr>
-                                <th>Задачи</th>
-                                <th>Номер гарантийного талона</th>
-                                <th>Дата выполнения</th>
-                                <th>Номер заказа</th>
-                            </tr>
-                            </thead>
-                            @foreach($category->orders as $order)
-                                <tr>
-                                    <td>{{ $order->task->title }}</td>
-                                    <td>{{ $order->task->guarantee->number }}</td>
-                                    <td>{{ $order->task->deadline }}</td>
-                                    <td>{{ $order->number }}</td>
-                                </tr>
                                 @endforeach
-                                </tbody>
                         </table>
                         <div class="row">
                             <div class="col-2 mb-3">

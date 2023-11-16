@@ -26,6 +26,8 @@ class UpdateTaskRequest extends FormRequest
             'description' => 'required|string',
             'deadline' => 'nullable|date|after_or_equal:today',
             'is_finished' => 'nullable|string',
+            'price' => 'nullable|integer',
+            'category_id' => 'nullable|integer|exists:categories,id',
 
         ];
     }

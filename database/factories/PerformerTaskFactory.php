@@ -20,9 +20,12 @@ class PerformerTaskFactory extends Factory
      */
     public function definition(): array
     {
+        $taskId = Task::inRandomOrder()->first();
+        $performerId = Performer::inRandomOrder()->first();
+
         return [
-            'task_id' => Task::inRandomOrder()->first(),
-            'performer_id' => Performer::inRandomOrder()->first(),
+            'task_id' => $taskId,
+            'performer_id' => $performerId,
         ];
     }
 }

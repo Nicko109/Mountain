@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->integer('number');
+            $table->string('title');
             $table->foreignId('task_id')->nullable()->index()->constrained('tasks');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('complaints');
     }
 };
