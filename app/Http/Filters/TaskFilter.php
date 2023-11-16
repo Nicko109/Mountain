@@ -46,7 +46,7 @@ class TaskFilter extends AbstractFilter
 
     public function isFinished(Builder $builder, $value)
     {
-        dd($builder->where('is_finished', $value)->get());
+
         $builder->where('is_finished', $value);
     }
 
