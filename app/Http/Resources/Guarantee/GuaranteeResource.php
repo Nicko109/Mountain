@@ -17,6 +17,7 @@ class GuaranteeResource extends JsonResource
         return [
             'id' => $this->id,
             'number' => $this->number,
+            'task_id' => $this->task_id
         ];
     }
 }

@@ -8,3 +8,4 @@ interface FilterInterface
 {
     public function apply(Builder $builder);
 }
+

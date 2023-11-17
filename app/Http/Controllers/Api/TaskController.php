@@ -24,21 +24,19 @@ class TaskController extends Controller
     {
         $data = $request->validated();
         $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 25;
+        $perPage = $data['per_page'] ?? 15;
+//        return response()->json($data);
 
+        $filter = app()->make(TaskFilter::class, ['queryParams' => $data]);
 
-        $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
         $tasks = Task::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $formattedTasks = TaskMapper::indexTasks($tasks);
 
-        $tasks = TaskResource::collection($tasks);
+
+        $tasks = TaskResource::collection($tasks)->resolve();
         return $tasks;
-
-
     }
-
-
     /**
      * Store a newly created resource in storage.
      */

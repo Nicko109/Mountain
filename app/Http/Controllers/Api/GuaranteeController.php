@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\CategoryFilter;
+use App\Http\Filters\GuaranteeFilter;
+use App\Http\Requests\Api\Guarantee\IndexRequest;
 use App\Http\Requests\Guarantee\StoreGuaranteeRequest;
 use App\Http\Requests\Guarantee\UpdateGuaranteeRequest;
 use App\Http\Resources\Guarantee\GuaranteeResource;
+use App\Models\Category;
 use App\Models\Guarantee;
 use App\Services\GuaranteeService;
 
@@ -14,12 +18,18 @@ class GuaranteeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
+        $data = $request->validated();
 
-        $guarantees = GuaranteeService::index();
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
 
-        $guarantees = GuaranteeResource::collection($guarantees)->resolve();
+        $filter = app()->make(GuaranteeFilter::class, ['queryParams' => array_filter($data)]);
+
+        $guarantees = Guarantee::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+
+        $guarantees = GuaranteeResource::collection($guarantees);
 
         return $guarantees;
     }

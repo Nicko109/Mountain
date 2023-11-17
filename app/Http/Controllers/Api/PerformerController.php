@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\GuaranteeFilter;
+use App\Http\Filters\PerformerFilter;
+use App\Http\Requests\Api\Performer\IndexRequest;
 use App\Http\Requests\Performer\StorePerformerRequest;
 use App\Http\Requests\Performer\UpdatePerformerRequest;
 use App\Http\Requests\StorePerformerTaskRequest;
@@ -18,10 +21,18 @@ class PerformerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $performers = PerformerService::index();
-        $performers = PerformerResource::collection($performers)->resolve();
+        $data = $request->validated();
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+
+        $filter = app()->make(PerformerFilter::class, ['queryParams' => array_filter($data)]);
+
+        $performers = Performer::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+
+        $performers = PerformerResource::collection($performers);
 
         return $performers;
     }

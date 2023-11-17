@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\CategoryFilter;
+use App\Http\Filters\TaskFilter;
+use App\Http\Requests\Api\Category\IndexRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Requests\StoreCategoryTaskRequest;
@@ -17,10 +20,17 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $categories = CategoryService::index();
-        $categories = CategoryResource::collection($categories)->resolve();
+        $data = $request->validated();
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 5;
+
+        $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);
+
+        $categories = Category::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $categories = CategoryResource::collection($categories);
         return $categories;
     }
 

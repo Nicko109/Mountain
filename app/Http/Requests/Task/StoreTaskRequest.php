@@ -25,7 +25,7 @@ class StoreTaskRequest extends FormRequest
             'title' => 'required|string',
             'description' => 'required|string',
             'deadline' => 'nullable|date|after_or_equal:today',
-            'is_finished' => 'nullable|string',
+            'is_finished' => 'nullable|boolean',
             'price' => 'nullable|integer',
             'category_id' => 'nullable|integer|exists:categories,id',
         ];
