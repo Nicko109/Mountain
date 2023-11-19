@@ -12,6 +12,7 @@ use App\Http\Resources\Guarantee\GuaranteeResource;
 use App\Models\Category;
 use App\Models\Guarantee;
 use App\Services\GuaranteeService;
+use Illuminate\Support\Facades\Log;
 
 class GuaranteeController extends Controller
 {
@@ -25,10 +26,10 @@ class GuaranteeController extends Controller
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
 
-        $filter = app()->make(GuaranteeFilter::class, ['queryParams' => array_filter($data)]);
+        $filter = app()->make(GuaranteeFilter::class, ['queryParams' => $data]);
 
         $guarantees = Guarantee::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-
+        Log::channel('guarantee')->info('Список успешно показан');
         $guarantees = GuaranteeResource::collection($guarantees);
 
         return $guarantees;
@@ -44,7 +45,7 @@ class GuaranteeController extends Controller
 
         $guarantee = GuaranteeService::store($data);
 
-
+        Log::channel('guarantee')->info('Успешно создано', ['guarantee' => $guarantee]);
         $guarantee = GuaranteeResource::make($guarantee)->resolve();
 
 
@@ -59,6 +60,8 @@ class GuaranteeController extends Controller
      */
     public function show(Guarantee $guarantee)
     {
+        Log::channel('guarantee')->info('Успешно показано', ['guarantee' => $guarantee]);
+
         $guarantee = GuaranteeResource::make($guarantee)->resolve();
 
         return $guarantee;
@@ -72,6 +75,8 @@ class GuaranteeController extends Controller
     {
         $data = $request->validated();
         GuaranteeService::update($guarantee, $data);
+        Log::channel('guarantee')->info('Успешно обновлено', ['guarantee' => $guarantee]);
+
         $guarantee = GuaranteeResource::make($guarantee)->resolve();
 
         return $guarantee;
@@ -83,7 +88,7 @@ class GuaranteeController extends Controller
     public function destroy(Guarantee $guarantee)
     {
         GuaranteeService::destroy($guarantee);
-
+        Log::channel('guarantee')->info('Успешно удалено', ['guarantee' => $guarantee]);
         return redirect()->route('api.guarantees.index');
     }
 }

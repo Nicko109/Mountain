@@ -1,5 +1,9 @@
 <?php
 
+use App\LoggerFormatters\CategoryLoggerFormatter;
+use App\LoggerFormatters\GuaranteeLoggerFormatter;
+use App\LoggerFormatters\PerformerLoggerFormatter;
+use App\LoggerFormatters\TaskLoggerFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -126,6 +130,32 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+
+        'category' => [
+            'driver' =>'single',
+            'path' => storage_path('logs/category/category.log'),
+            'tap' => [CategoryLoggerFormatter::class]
+        ],
+
+        'guarantee' => [
+            'driver' =>'single',
+            'path' => storage_path('logs/guarantee/guarantee.log'),
+            'tap' => [GuaranteeLoggerFormatter::class]
+        ],
+
+        'performer' => [
+            'driver' =>'single',
+            'path' => storage_path('logs/performer/performer.log'),
+            'tap' => [PerformerLoggerFormatter::class]
+        ],
+
+        'task' => [
+            'driver' =>'single',
+            'path' => storage_path('logs/task/task.log'),
+        ],
+
     ],
+
 
 ];

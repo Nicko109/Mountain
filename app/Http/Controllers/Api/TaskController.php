@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\Task\StoreException;
+use App\Exceptions\Task\StoreSuccessException;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\TaskFilter;
 use App\Http\Requests\Api\Task\IndexRequest;
@@ -14,6 +16,8 @@ use App\Models\Guarantee;
 use App\Models\Performer;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class TaskController extends Controller
 {
@@ -22,6 +26,18 @@ class TaskController extends Controller
      */
     public function index(IndexRequest $request)
     {
+//        try {
+
+
+            $task = Task::find(150);
+            if (!$task) {
+            throw StoreException::SUCCESS();
+            }
+//        } catch (StoreException $exception) {
+//            dd($exception->getMessage());
+//        }
+
+
         $data = $request->validated();
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 15;
@@ -33,10 +49,11 @@ class TaskController extends Controller
         $tasks = Task::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $formattedTasks = TaskMapper::indexTasks($tasks);
 
-
+        Log::channel('task')->info('Список успешно показан');
         $tasks = TaskResource::collection($tasks)->resolve();
         return $tasks;
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -45,6 +62,9 @@ class TaskController extends Controller
         $data = $request->validated();
 
         $task = TaskService::store($data);
+        if ($task->wasRecentlyCreated) {
+            throw StoreSuccessException::SUCCESS();
+        }
 
         $guarantee = new Guarantee([
             'number' => random_int(100000, 999999)
@@ -56,7 +76,7 @@ class TaskController extends Controller
         $guarantee->save();
 
         $task = TaskMapper::storeTask($task);
-
+        Log::channel('task')->info('Успешно создано', ['task' => $task]);
         $task = TaskResource::make($task)->resolve();
 
 
@@ -72,10 +92,14 @@ class TaskController extends Controller
     {
         $task = TaskMapper::showTask($task);
 
-
+        Log::channel('task')->info('Успешно показано', ['task' => $task]);
         $task = TaskResource::make($task)->resolve();
 
         return $task;
+
+//        $id = 200;
+//        $task = Task::find($id);
+//                Log::channel('task')->error('error', ['id' => $id]);
     }
 
 
@@ -88,7 +112,7 @@ class TaskController extends Controller
         TaskService::update($task, $data);
 
         $task = TaskMapper::storeTask($task);
-
+        Log::channel('task')->info('Успешно обновлено', ['task' => $task]);
         $task = TaskResource::make($task)->resolve();
         return $task;
     }
@@ -99,13 +123,12 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         TaskService::destroy($task);
-
+        Log::channel('task')->info('Успешно удалено', ['task' => $task]);
         return redirect()->route('api.tasks.index');
     }
 
     public function storeTaskPerformer(StoreTaskPerformerRequest $request, Task $task)
     {
-
         $data = $request->validated();
 
         foreach ($data['performer_ids'] as $performerId) {

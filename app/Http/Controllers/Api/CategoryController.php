@@ -14,6 +14,7 @@ use App\Http\Resources\Task\TaskResource;
 use App\Models\Category;
 use App\Models\Task;
 use App\Services\CategoryService;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -27,9 +28,11 @@ class CategoryController extends Controller
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 5;
 
-        $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);
+        $filter = app()->make(CategoryFilter::class, ['queryParams' => $data]);
 
         $categories = Category::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        Log::channel('category')->info('Список успешно показан');
+
         $categories = CategoryResource::collection($categories);
         return $categories;
     }
@@ -40,7 +43,11 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
+
         $category = CategoryService::store($data);
+
+        Log::channel('category')->info('Успешно создано', ['category' => $category]);
+
         $category = CategoryResource::make($category)->resolve();
         return $category;
     }
@@ -50,7 +57,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        Log::channel('category')->info('Успешно показано', ['category' => $category]);
+
         $category = CategoryResource::make($category)->resolve();
+
+
 
         return $category;
     }
@@ -62,7 +73,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         CategoryService::update($category, $data);
-
+        Log::channel('category')->info('Успешно обновлено', ['category' => $category]);
         $category = CategoryResource::make($category)->resolve();
 
         return $category;
@@ -74,7 +85,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         CategoryService::destroy($category);
-
+        Log::channel('category')->info('Успешно удалено', ['category' => $category]);
         return redirect()->route('api.categories.index');
     }
 

@@ -15,6 +15,7 @@ use App\Http\Resources\Task\TaskResource;
 use App\Models\Performer;
 use App\Models\Task;
 use App\Services\PerformerService;
+use Illuminate\Support\Facades\Log;
 
 class PerformerController extends Controller
 {
@@ -28,10 +29,10 @@ class PerformerController extends Controller
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
 
-        $filter = app()->make(PerformerFilter::class, ['queryParams' => array_filter($data)]);
+        $filter = app()->make(PerformerFilter::class, ['queryParams' => $data]);
 
         $performers = Performer::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-
+        Log::channel('performer')->info('Список успешно показан');
         $performers = PerformerResource::collection($performers);
 
         return $performers;
@@ -46,7 +47,7 @@ class PerformerController extends Controller
         $data = $request->validated();
 
         $performer = PerformerService::store($data);
-
+        Log::channel('performer')->info('Успешно создано', ['performer' => $performer]);
         $performer = PerformerResource::make($performer)->resolve();
 
 
@@ -61,6 +62,8 @@ class PerformerController extends Controller
      */
     public function show(Performer $performer)
     {
+        Log::channel('performer')->info('Успешно показано', ['performer' => $performer]);
+
         $performer = PerformerResource::make($performer)->resolve();
 
         return $performer;
@@ -73,7 +76,7 @@ class PerformerController extends Controller
     {
         $data = $request->validated();
         PerformerService::update($performer, $data);
-
+        Log::channel('performer')->info('Успешно обновлено', ['performer' => $performer]);
         $performer = PerformerResource::make($performer)->resolve();
         return $performer;
     }
@@ -84,7 +87,7 @@ class PerformerController extends Controller
     public function destroy(Performer $performer)
     {
         PerformerService::destroy($performer);
-
+        Log::channel('performer')->info('Успешно удалено', ['performer' => $performer]);
         return redirect()->route('api.performers.index');
     }
 
