@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ApiMount;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\TaskFilter;
+use App\Http\Requests\Api\Task\IndexRequest;
 use App\Http\Requests\StoreTaskPerformerRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
@@ -12,19 +14,29 @@ use App\Models\Guarantee;
 use App\Models\Performer;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-            $tasks = TaskService::index();
-            $formattedTasks = TaskMapper::indexTasks($tasks);
-            $tasks = TaskResource::collection($tasks)->resolve();
-            return $tasks;
 
+        $data = $request->validated();
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 15;
+
+        $filter = app()->make(TaskFilter::class, ['queryParams' => $data]);
+
+
+        $tasks = Task::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $formattedTasks = TaskMapper::indexTasks($tasks);
+
+        Log::channel('task')->info('Список успешно показан');
+        $tasks = TaskResource::collection($tasks)->resolve();
+        return $tasks;
     }
 
 

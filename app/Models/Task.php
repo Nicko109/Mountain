@@ -14,6 +14,8 @@ class Task extends Model
     protected $guarded = false;
     protected $table = 'tasks';
 
+
+
     public function guarantee()
     {
         return $this->hasOne(Guarantee::class);

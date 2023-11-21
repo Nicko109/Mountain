@@ -27,7 +27,7 @@ class CategoryController extends Controller
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 5;
 
-        $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);
+        $filter = app()->make(CategoryFilter::class, ['queryParams' => $data]);
 
         $categories = Category::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $categories = CategoryResource::collection($categories);

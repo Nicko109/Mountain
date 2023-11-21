@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Performer;
+use App\Models\Task;
+use App\Observers\PerformerObserver;
+use App\Observers\TaskObserver;
+use App\Subscribers\Task\TaskSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +26,25 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
+     * The model observers for your application.
+     *
+     * @var array
+     */
+    protected $observers = [
+        Task::class => [TaskObserver::class],
+        Performer::class => [PerformerObserver::class],
+    ];
+
+
+//    /**
+//     * The subscriber classes to register.
+//     *
+//     * @var array
+//     */
+//    protected $subscribe = [
+//        TaskSubscriber::class,
+//    ];
+    /**
      * Register any events for your application.
      */
     public function boot(): void
@@ -33,6 +57,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEvents(): bool
     {
-        return false;
+        return true;
     }
 }

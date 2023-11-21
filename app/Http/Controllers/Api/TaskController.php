@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Task\StoredTaskEvent;
+use App\Exceptions\Task\ShowException;
+use App\Exceptions\Task\StoreSuccessException;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\TaskFilter;
 use App\Http\Requests\Api\Task\IndexRequest;
@@ -9,11 +12,13 @@ use App\Http\Requests\StoreTaskPerformerRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\Task\TaskResource;
+use App\Jobs\Task\StoreJob;
 use App\Mapper\TaskMapper;
 use App\Models\Guarantee;
 use App\Models\Performer;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -22,21 +27,33 @@ class TaskController extends Controller
      */
     public function index(IndexRequest $request)
     {
+
+//                try {
+////
+////
+//            $task = Task::find(150);
+//            if (!$task) {
+//            throw ShowException::ERROR();
+//            }
+//        } catch (ShowException $exception) {
+//            dd($exception->getMessage());
+//        }
+
         $data = $request->validated();
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 15;
 //        return response()->json($data);
-
         $filter = app()->make(TaskFilter::class, ['queryParams' => $data]);
 
 
         $tasks = Task::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $formattedTasks = TaskMapper::indexTasks($tasks);
 
-
+        Log::channel('task')->info('Список успешно показан');
         $tasks = TaskResource::collection($tasks)->resolve();
         return $tasks;
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -44,18 +61,16 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
+
+//        $task = StoreJob::dispatch($data)->onQueue('tasks');
         $task = TaskService::store($data);
 
-        $guarantee = new Guarantee([
-            'number' => random_int(100000, 999999)
-        ]);
+//       StoreSuccessException::SUCCESS($task);
 
-        $guarantee->task_id = $task->id;
-
-        // Сохраняем гарантию в базе данных
-        $guarantee->save();
 
         $task = TaskMapper::storeTask($task);
+        StoredTaskEvent::dispatch($task);
+
 
         $task = TaskResource::make($task)->resolve();
 
@@ -72,7 +87,7 @@ class TaskController extends Controller
     {
         $task = TaskMapper::showTask($task);
 
-
+        Log::channel('task')->info('Успешно показано', ['task' => $task]);
         $task = TaskResource::make($task)->resolve();
 
         return $task;

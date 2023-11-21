@@ -14,6 +14,8 @@ class Performer extends Model
     protected $guarded = false;
     protected $table = 'performers';
 
+
+
     public function tasks()
     {
         return $this->belongsToMany(Task::class);

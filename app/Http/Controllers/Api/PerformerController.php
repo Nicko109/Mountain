@@ -12,9 +12,13 @@ use App\Http\Requests\Performer\UpdatePerformerRequest;
 use App\Http\Requests\StorePerformerTaskRequest;
 use App\Http\Resources\Performer\PerformerResource;
 use App\Http\Resources\Task\TaskResource;
+use App\Jobs\Performer\DeleteJob;
+use App\Jobs\Performer\StoreJob;
+use App\Jobs\Performer\UpdateJob;
 use App\Models\Performer;
 use App\Models\Task;
 use App\Services\PerformerService;
+use Illuminate\Support\Facades\Log;
 
 class PerformerController extends Controller
 {
@@ -28,7 +32,7 @@ class PerformerController extends Controller
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
 
-        $filter = app()->make(PerformerFilter::class, ['queryParams' => array_filter($data)]);
+        $filter = app()->make(PerformerFilter::class, ['queryParams' => $data]);
 
         $performers = Performer::filter($filter)->paginate($perPage, ['*'], 'page', $page);
 
@@ -41,16 +45,18 @@ class PerformerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePerformerRequest $request)
+    public function store(StorePerformerRequest $request, Performer $performer)
     {
         $data = $request->validated();
 
-        $performer = PerformerService::store($data);
+        StoreJob::dispatch($data)->onQueue('performers');
+//
+//        $performer = PerformerService::store($data);
+//
+//        $performer = PerformerResource::make($performer)->resolve();
 
-        $performer = PerformerResource::make($performer)->resolve();
-
-
-        return $performer;
+//
+//        return $performer;
 
     }
     /**
@@ -72,10 +78,13 @@ class PerformerController extends Controller
     public function update(UpdatePerformerRequest $request, Performer $performer)
     {
         $data = $request->validated();
-        PerformerService::update($performer, $data);
 
-        $performer = PerformerResource::make($performer)->resolve();
-        return $performer;
+        UpdateJob::dispatch($performer->toArray(), $data)->onQueue('performers');
+//        PerformerService::update($performer, $data);
+//
+//        $performer = PerformerResource::make($performer)->resolve();
+//        return $performer;
+//        Log::channel('performer')->info('Успешно обновлено', ['performer' => $performer]);
     }
 
     /**
@@ -83,7 +92,10 @@ class PerformerController extends Controller
      */
     public function destroy(Performer $performer)
     {
-        PerformerService::destroy($performer);
+        DeleteJob::dispatch($performer)->onQueue('performers');
+
+//        PerformerService::destroy($performer);
+
 
         return redirect()->route('api.performers.index');
     }

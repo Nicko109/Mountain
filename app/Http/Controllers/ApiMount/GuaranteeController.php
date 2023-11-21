@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ApiMount;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\GuaranteeFilter;
+use App\Http\Requests\Api\Guarantee\IndexRequest;
 use App\Http\Requests\Guarantee\StoreGuaranteeRequest;
 use App\Http\Requests\Guarantee\UpdateGuaranteeRequest;
 use App\Http\Resources\Guarantee\GuaranteeResource;
@@ -14,10 +16,16 @@ class GuaranteeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
+        $data = $request->validated();
 
-        $guarantees = GuaranteeService::index();
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+
+        $filter = app()->make(GuaranteeFilter::class, ['queryParams' => $data]);
+
+        $guarantees = Guarantee::filter($filter)->paginate($perPage, ['*'], 'page', $page);
 
         $guarantees = GuaranteeResource::collection($guarantees)->resolve();
 
