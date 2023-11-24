@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\CategoryFilter;
@@ -15,7 +15,6 @@ use App\Models\Category;
 use App\Models\Task;
 use App\Services\CategoryService;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {

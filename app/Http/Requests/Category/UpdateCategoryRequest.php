@@ -23,6 +23,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
+            'image' => 'nullable|file',
         ];
     }
 

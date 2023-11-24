@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class StoreSuccessException extends Exception
+class StoreException extends Exception
 {
 
     /**
@@ -16,7 +16,7 @@ class StoreSuccessException extends Exception
      */
     public function report(): void
     {
-        Log::channel('task')->info('Успешно создана from Exception');
+        Log::channel('task')->error('Ошибка показа обьекта from Exception');
     }
 
     /**
@@ -24,11 +24,11 @@ class StoreSuccessException extends Exception
      */
     public function render(Request $request): Response
     {
-        return response(['message' => 'success']);
+        return response(['message' => 'some error']);
     }
 
     public static function SUCCESS()
     {
-        return new self('Успешно создано');
+        return new self('Ошибка показа обьекта');
     }
 }

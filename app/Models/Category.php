@@ -34,6 +34,10 @@ class Category extends Model
     {
         return $this->hasOne(Task::class)->ofMany('deadline', 'min');
     }
+    public function setImagePathAttribute($value)
+    {
+        $this->attributes['image_path'] = $value;
+    }
 
 
 

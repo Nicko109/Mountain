@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Performer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,17 @@ Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::c
 Route::apiResource('guarantees', \App\Http\Controllers\Api\GuaranteeController::class);
 Route::apiResource('performers', \App\Http\Controllers\Api\PerformerController::class);
 });
+
+
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::apiResource('/admin/tasks', \App\Http\Controllers\Admin\TaskController::class);
+    Route::apiResource('/admin/categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::apiResource('/admin/guarantees', \App\Http\Controllers\Admin\GuaranteeController::class);
+    Route::apiResource('/admin/performers', \App\Http\Controllers\Admin\PerformerController::class)
+        ->middleware('can:viewAny,' . Performer::class);;
+});
+
 
 
 
