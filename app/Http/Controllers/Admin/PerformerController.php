@@ -27,7 +27,7 @@ class PerformerController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        $this->authorize('viewAny', Performer::class);
+
         $data = $request->validated();
 
         $page = $data['page'] ?? 1;
@@ -48,7 +48,7 @@ class PerformerController extends Controller
      */
     public function store(StorePerformerRequest $request, Performer $performer)
     {
-        $this->authorize('create', $performer);
+
         $data = $request->validated();
 
         StoreJob::dispatch($data)->onQueue('performers');
@@ -69,7 +69,7 @@ class PerformerController extends Controller
      */
     public function show(Performer $performer)
     {
-        $this->authorize('view', $performer);
+
         $performer = PerformerResource::make($performer)->resolve();
 
         return $performer;
@@ -80,7 +80,7 @@ class PerformerController extends Controller
      */
     public function update(UpdatePerformerRequest $request, Performer $performer)
     {
-        $this->authorize('update', $performer);
+
         $data = $request->validated();
 
         UpdateJob::dispatch($performer->toArray(), $data)->onQueue('performers');
@@ -96,7 +96,7 @@ class PerformerController extends Controller
      */
     public function destroy(Performer $performer)
     {
-        $this->authorize('delete', $performer);
+
         DeleteJob::dispatch($performer)->onQueue('performers');
 
 
