@@ -35,12 +35,12 @@ class GoCommand extends Command
 
 
 
-        $name = 'Stas';
-        $user = User::first();
+//        $name = 'Stas';
+//        $user = User::first();
 //        dd($user->unreadNotifications->first()->data['str']);
 //        dd($user->unreadNotifications->first()->markAsRead());
-        dd($user->readNotifications);
-        Notification::send($user, new StoredPerformerNotification($name));
+//        dd($user->readNotifications);
+//        Notification::send($user, new StoredPerformerNotification($name));
 
 
 
@@ -51,9 +51,9 @@ class GoCommand extends Command
 
 
 // Отправка письма через класс Mail
-//        $name = 'Stas';
-//        $user = User::first();
-//        Mail::to($user)->send(new StoredPerformerMail($name));
+        $name = 'Stas';
+        $user = User::first();
+        Mail::to($user)->send(new StoredPerformerMail($name));
 
 
 

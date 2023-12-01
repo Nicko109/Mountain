@@ -2,8 +2,11 @@
 
 namespace App\Observers;
 
+use App\Mail\Performer\StoredPerformerMail;
 use App\Models\Performer;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PerformerObserver
 {
@@ -13,6 +16,8 @@ class PerformerObserver
     public function created(Performer $performer): void
     {
 
+        $status = 'Дорогой Клиент';
+        Mail::to('user@mail')->send(new StoredPerformerMail($status));
         Log::channel('performer')->info('Успешно создано', ['performer' => $performer]);
     }
 
